@@ -6,7 +6,7 @@ With this project, we will learn how to implement such an algorithm using Trie D
 
 [Trie Data Structure](https://www.geeksforgeeks.org/trie-insert-and-search/)
 ## About This Project:
-[dictionary.txt](dictionary.txt) contains 300 of the most used words of the English dictionary and is stored in a Trie Data Structure. It is an analogy to a full size dictionary of all words of the English language used in bigger programs. A word is taken as input from the user and if it is mis-spelled, most relevant words are displayed using the Trie.
+[dictionary.txt](dictionary.txt) contains 3000 of the most used words of the English dictionary and is stored in a Trie Data Structure. It is an analogy to a full size dictionary of all words of the English language used in bigger programs. A word is taken as input from the user and if it is mis-spelled, most relevant words are displayed using the Trie.
 ## Pre-Requisite:
 * Understanding Of Basics Of C++ Including OOP and STL
 * Trie Data Structure
