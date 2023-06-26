@@ -139,6 +139,11 @@ void AutoCorrect :: check_word(){
             }
         }
 
+        if(!results.empty()){
+            print_results();
+            return;
+        }
+
         // Check for a single missing character
 
         for(int i = 0; i<input_word.length(); i++){
@@ -182,6 +187,57 @@ void AutoCorrect :: check_word(){
             }
         }
 
+        if(!results.empty()){
+            print_results();
+            return;
+        }
+
+        // check for 2 extra characters
+
+        if(input_word.length() >= 5){
+            for(int i = 0; i<input_word.length() - 1; i++){
+                string prev_word1 = input_word;
+                input_word.erase(input_word.begin()+i);
+                for(int j = 0; j<input_word.length(); j++){
+                    string prev_word2 = input_word;
+                    input_word.erase(input_word.begin()+j);
+                    if(searchWord(input_word))results[input_word]++;
+                    input_word = prev_word2;
+                }
+                input_word = prev_word1;
+            }
+        }
+
+        if(!results.empty()){
+            print_results();
+            return;
+        }
+
+        // check for 3 mis-spelled characters
+
+        for(int i = 0; i<input_word.length() - 2; i++){
+            for(int j = i + 1; j<input_word.length() - 1; j++){
+                for(int k = j + 1; k<input_word.length(); k++){
+                    for(char ch1 = 'a';ch1 <= 'z'; ch1++){
+                        for(char ch2 = 'a'; ch2 <= 'z'; ch2++){
+                            for(char ch3 = 'a'; ch3 <= 'z'; ch3++){
+                                char prev_i = input_word[i];
+                                char prev_j = input_word[j];
+                                char prev_k = input_word[k];
+                                input_word[i] = ch1;
+                                input_word[j] = ch2;
+                                input_word[k] = ch3;
+                                if(searchWord(input_word))results[input_word]++;
+                                input_word[i] = prev_i;
+                                input_word[j] = prev_j;
+                                input_word[k] = prev_k;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         print_results();
 
     }
@@ -189,15 +245,18 @@ void AutoCorrect :: check_word(){
 
 void AutoCorrect :: print_results(){
 
-    if(results.empty()){
-        cout << "Could Not Find Correct Results." << endl;
-        cout << "\nPossible Reason : Too many mis-spelled characters in input." << endl << endl;
-        return;
+    if(!results.empty()){
+
+        cout << "\nAuto-Correct Results:" << endl << endl;
+        for(auto it : results){
+            cout << it.first << endl;
+        }
+
     }
 
-    cout << "\nAuto-Correct Results:" << endl << endl;
-    for(auto it : results){
-        cout << it.first << endl;
+    else{
+        cout << "Could Not Find Correct Results." << endl;
+        cout << "\nPossible Reasons : \n1.Too many mis-spelled characters in input.\n2.Correct word is not present in dictionary." << endl << endl;
     }
 
     cout << "\nIf You Think Your Word Was Correctly Spelled and/or Results Were Inconsistent:" << endl;
@@ -219,7 +278,6 @@ void AutoCorrect :: print_results(){
         cout << input_word << " Was Added." << endl;
     }
     else cout << "Failed To Open \"dictionary.txt\"" << endl;
-
 }
 
 int main(){
